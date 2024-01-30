@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.stopwatch-container {
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.display-container {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.controls button {
+    padding: 8px 15px;
+    font-size: 1em;
+    margin: 0 5px;
+    cursor: pointer;
+}
+</style>
+
+    <title>Stopwatch App</title>
+</head>
+<body>
+<script>
+let minutes = 0;
+let seconds = 0;
+let milliseconds = 0;
+let timer;
+
+function startStopwatch() {
+    if (!timer) {
+        timer = setInterval(updateStopwatch, 10);
+    }
+}
+
+function pauseStopwatch() {
+    clearInterval(timer);
+    timer = null;
+}
+
+function resetStopwatch() {
+    clearInterval(timer);
+    timer = null;
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+    updateDisplay();
+}
+
+function updateStopwatch() {
+    milliseconds += 10;
+    if (milliseconds === 1000) {
+        milliseconds = 0;
+        seconds++;
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+        }
+    }
+    updateDisplay();
+}
+
+function updateDisplay() {
+    document.getElementById("minutes").textContent = padZero(minutes);
+    document.getElementById("seconds").textContent = padZero(seconds);
+    document.getElementById("milliseconds").textContent = padZero(milliseconds);
+}
+
+function padZero(value) {
+    return value < 10 ? "0" + value : value;
+}
+</script>
+    <div class="stopwatch-container">
+        <h1>Stopwatch</h1>
+        <div class="display-container">
+            <span id="minutes">00</span>:
+            <span id="seconds">00</span>:
+            <span id="milliseconds">00</span>
+        </div>
+        <div class="controls">
+            <button onclick="startStopwatch()">Start</button>
+            <button onclick="pauseStopwatch()">Pause</button>
+            <button onclick="resetStopwatch()">Reset</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
